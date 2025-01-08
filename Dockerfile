@@ -1,23 +1,40 @@
-FROM ubuntu:20.04
+# Usando a imagem do OpenJDK 17 como base, que é necessária para rodar o TLauncher
+FROM openjdk:17-jre-slim
 
+# Variáveis de ambiente
 ENV DEBIAN_FRONTEND=noninteractive
+ENV USER_NAME=noejunior299
+ENV TLAUNCHER_VERSION=2.90.1
+ENV MINECRAFT_VERSION=1.20.4-forgeOptifine
 
+# Instalar dependências necessárias
 RUN apt-get update && \
     apt-get install -y \
     sudo \
-    vim \
     curl \
+    wget \
+    libgl1-mesa-glx \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m -s /bin/bash noejunior299 && \
-    echo "noejunior299:12345678" | chpasswd && \
-    adduser noejunior299 sudo
+# Criar o usuário
+RUN useradd -m -s /bin/bash $USER_NAME && \
+    echo "$USER_NAME:12345678" | chpasswd && \
+    adduser $USER_NAME sudo
 
-WORKDIR /home/noejunior299
+# Mudar para o diretório home do usuário
+WORKDIR /home/$USER_NAME
 
-USER noejunior299
+# Baixar e instalar o TLauncher
+RUN wget https://tlauncher.org/downloads/tlauncher-${TLAUNCHER_VERSION}-linux-x64.tar.gz && \
+    tar -xvzf tlauncher-${TLAUNCHER_VERSION}-linux-x64.tar.gz && \
+    rm tlauncher-${TLAUNCHER_VERSION}-linux-x64.tar.gz
 
-# Expondo a porta 25565 (padrão para Minecraft)
+# Expor a porta para o servidor Minecraft
 EXPOSE 25565
 
-CMD ["bash"]
+# Definir o diretório do TLauncher
+WORKDIR /home/$USER_NAME/tlauncher
+
+# Rodar o TLauncher
+USER $USER_NAME
+CMD ["bash", "tlauncher"]
