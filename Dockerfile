@@ -4,7 +4,7 @@ FROM ubuntu:20.04
 # Configurando ambiente não interativo para evitar prompts durante a instalação
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Atualizar pacotes e instalar SSH, sudo, e curl para obter o IP público
+# Atualizar pacotes e instalar SSH, sudo e curl
 RUN apt-get update && \
     apt-get install -y \
     openssh-server \
@@ -29,14 +29,9 @@ RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/
 # Expor a porta do SSH
 EXPOSE 22
 
-# Script para exibir o IP público no terminal
-RUN echo '#!/bin/bash\n\
-PUBLIC_IP=$(curl -s ifconfig.me)\n\
-echo "============================="\n\
-echo "Acesse o SSH usando o comando:"\n\
-echo "ssh noejunior299@$PUBLIC_IP -p 22"\n\
-echo "============================="\n\
-/usr/sbin/sshd -D' > /start.sh && chmod +x /start.sh
+# Copiar o script de inicialização para o container
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-# Comando para iniciar o script ao iniciar o container
-CMD ["/bin/bash"]
+# Definir o script como comando principal
+CMD ["/bin/bash", "/start.sh"]
