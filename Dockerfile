@@ -26,7 +26,7 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 # Ajustar configurações do SSH para permitir login com senha
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
-# Expor a porta do SSH
+# Expor a porta 22 para conexões SSH
 EXPOSE 22
 
 # Copiar o script de inicialização para o container
