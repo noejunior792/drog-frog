@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Atualizar e iniciar o serviço Docker
+service docker start
+
 # Construir a imagem Docker
 docker build -t ubuntu-ssh .
 
