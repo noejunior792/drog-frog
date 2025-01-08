@@ -1,3 +1,3 @@
 FROM ubuntu
 RUN apt update
-CMD ["bash"]
+EXPOSE 80
