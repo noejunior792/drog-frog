@@ -6,13 +6,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Atualizar e instalar dependências necessárias
 RUN apt-get update && \
-    apt-get install -y \
-    sudo \
-    wget \
-    curl \
-    software-properties-common \
-    lsb-release \
+    apt-get install -y --no-install-recommends \
+    xfce4 \
+    xfce4-goodies \
+    xorg \
+    dbus-x11 \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Instalar o ambiente de desktop (exemplo: XFCE)
 RUN apt-get update && \
