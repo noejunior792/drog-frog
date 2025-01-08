@@ -1,5 +1,5 @@
 # Usando a imagem do OpenJDK 17 como base, que é necessária para rodar o TLauncher
-FROM openjdk:17-jre-slim
+FROM openjdk:11
 
 # Variáveis de ambiente
 ENV DEBIAN_FRONTEND=noninteractive
