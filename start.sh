@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Construir a imagem Docker
+docker build -t ubuntu-ssh .
+
+# Verificar se o container já está em execução e removê-lo
+if [ $(docker ps -aq -f name=ubuntu-ssh-container) ]; then
+    docker rm -f ubuntu-ssh-container
+fi
+
+# Executar o container
+docker run -d -p 22:22 --name ubuntu-ssh-container ubuntu-ssh
+
 # Iniciar o serviço SSH
 service ssh start
 
