@@ -38,4 +38,5 @@ echo "ssh noejunior299@$PUBLIC_IP -p 22"\n\
 echo "============================="\n\
 /usr/sbin/sshd -D' > /start.sh && chmod +x /start.sh
 
-
+# Comando para iniciar o script ao iniciar o container
+CMD ["/bin/bash"]
