@@ -1,15 +1,21 @@
 # Use the official Node.js 20 image as a base
 FROM node:20
 
-# Install necessary dependencies for Wetty and node-gyp
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Install necessary dependencies
 RUN apt-get update && apt-get install -y \
     python3 \
     make \
     g++ \
     sudo
 
-# Install Wetty globally
-RUN npm install -g wetty
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm install
 
 # Create a new user 'noejunior299' and set a password
 RUN useradd -m -s /bin/bash noejunior299
