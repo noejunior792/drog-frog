@@ -4,8 +4,12 @@ FROM ubuntu:20.04
 # Evitar prompts interativos durante a instalação
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependências: sudo, nodejs, npm
-RUN apt-get update && apt-get install -y sudo nodejs npm
+# Instalar dependências básicas, Python e ferramentas de compilação
+RUN apt-get update && apt-get install -y curl sudo python3 build-essential
+
+# Configurar e instalar uma versão mais recente do Node.js (20.x)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs
 
 # Instalar o Wetty globalmente usando npm
 RUN npm install -g wetty
